@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    triggers {
+        githubPush()   // runs automatically when GitHub webhook fires
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo "Building the project..."
+                // For Node:
+                // sh 'npm install'
+                // For Java (Maven):
+                // sh 'mvn clean install'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "Running tests..."
+                // sh 'npm test'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploy step executing..."
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Build Successful!"
+        }
+        failure {
+            echo "❌ Build Failed!"
+        }
+    }
+}
